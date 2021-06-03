@@ -7,6 +7,9 @@ public class Register {
     //Instance Variables
     private int balance;//may be public
     List<Item> purchaseditems = new ArrayList<>();
+    private final int quarter = 25;
+    private final int dime = 10;
+    private final int nickel = 5;
 
     //Getters
     public int getBalance() {
@@ -17,12 +20,24 @@ public class Register {
         return purchaseditems;
     }
 
+    public int getQuarter() {
+        return quarter;
+    }
+
+    public int getDime() {
+        return dime;
+    }
+
+    public int getNickel() {
+        return nickel;
+    }
+
     //Setters
     public void setBalance(int balance) {
         this.balance = 0;
     }
 
-    public void setItemsOnReceipt(List<Item> itemsOnReceipt) {
+    public void setItemsOnLog(List<Item> itemsOnReceipt) {
         this.purchaseditems = itemsOnReceipt;
     }
 
@@ -40,5 +55,14 @@ public class Register {
 
     public void feedMoney(int money){
         this.balance = balance + money;
+    }
+    public int giveChange(){
+        int countQuarters = 0;
+        int countDimes = 0;
+        int countNickels = 0;
+        while(balance >= 25){
+            this.balance = balance - 25;
+            countQuarters++;
+        }
     }
 }
