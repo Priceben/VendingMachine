@@ -11,7 +11,8 @@ public class VendingMachine {
     Register register = new Register();
 
     public void updateInventory(Item item){
-        actualInventory.put(item.getName(), 5);
+        actualInventory.put(item.getSlotLocation(), 5);
     }
+
 
 }

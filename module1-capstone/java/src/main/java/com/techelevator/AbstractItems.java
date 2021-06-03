@@ -45,6 +45,11 @@ public abstract class AbstractItems {
         this.slotLocation = slotLocation;
     }
 
+    public AbstractItems(String name, int price) {
+        this.name = name;
+        this.price = price;
+    }
+
     public AbstractItems(String slotLocation, String name, int price) {
         this.slotLocation = slotLocation;
         this.name = name;
