@@ -15,4 +15,5 @@ public class Item extends AbstractItems{
         super(name, type, price, slotLocation);
     }
 
+
 }
