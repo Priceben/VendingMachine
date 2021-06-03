@@ -5,5 +5,6 @@ import java.util.Map;
 
 public class VendingMachine {
     //vendingmachine.csv
-    Map<String, Integer> actualInventory = new HashMap<>();
+    Map<Item, Integer> actualInventory = new HashMap<>();
+ // Map<Integer, Item> actualInventory = new HashMap<>();
 }

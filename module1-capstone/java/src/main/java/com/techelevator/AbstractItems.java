@@ -41,23 +41,23 @@ public abstract class AbstractItems {
     }
 
     //Constructors
-    public AbstractItems(String name, int price) {
-        this.name = name;
-        this.price = price;
-    }
-
-    public AbstractItems(String name, int price, String slotLocation) {
-        this.name = name;
-        this.price = price;
+    public AbstractItems(String slotLocation) {
         this.slotLocation = slotLocation;
     }
 
-    public AbstractItems(String name, String type, int price, String slotLocation) {
+    public AbstractItems(String slotLocation, String name, int price) {
+        this.slotLocation = slotLocation;
         this.name = name;
+        this.price = price;
+    }
+
+    public AbstractItems(String slotLocation, String name, int price, String type) {
+        this.slotLocation = slotLocation;
+        this.name = name;
+        this.price = price;
         this.type = type;
-        this.price = price;
-        this.slotLocation = slotLocation;
     }
+
 
     //Methods
     //TODO: Update Inventory Method? Not sure

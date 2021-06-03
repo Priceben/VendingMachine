@@ -49,14 +49,15 @@ public class Register {
            purchaseditems.add(item);
            this.balance = balance - item.getPrice();
        } else {
-           System.out.println("Not enough balance!");
+           balance = balance;
        }
     }
 
     public void feedMoney(int money){
         this.balance = balance + money;
     }
-    public int giveChange(){
+
+    public String giveChange(){
         int countQuarters = 0;
         int countDimes = 0;
         int countNickels = 0;
@@ -64,5 +65,12 @@ public class Register {
             this.balance = balance - 25;
             countQuarters++;
         }
+        while(balance >= 10){
+            this.balance = balance - 10;
+            countDimes++;
+        }
+        countNickels = this.balance / 5;
+        this.balance = 0;
+        return "Your change is " + countQuarters + " quarter(s), " + countDimes + " dime(s), and " + countNickels + " nickel(s).";
     }
 }
