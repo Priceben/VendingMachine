@@ -3,9 +3,6 @@ package com.techelevator;
 public class Item extends AbstractItems{
 
     //Constructors
-    public Item (String slotLocation) {
-        super(slotLocation);
-    }
 
     public Item(String name, int price) {
         super(name, price);
@@ -17,15 +14,15 @@ public class Item extends AbstractItems{
     }
 
     public Item(String name, String type, int price) {
-        super(name, type, price);
+        super(name, price, type);
     }
 
     //public Item (String slotLocation, String name, int price) {
        // super(slotLocation, name, price);
    // }
 
-    public Item(String slotLocation, String name, int price, String type) {
-        super(slotLocation, name, price, type);
+    public Item(String name, int price, String type) {
+        super(name, price, type);
     }
 
 

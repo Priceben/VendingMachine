@@ -4,7 +4,7 @@ public abstract class AbstractItems {
     private String name;
     private String type;
     private int price;
-    private String slotLocation;
+
 
     //Getters
     public String getName() {
@@ -19,9 +19,7 @@ public abstract class AbstractItems {
         return price;
     }
 
-    public String getSlotLocation() {
-        return slotLocation;
-    }
+
 
     //Setters
     public void setName(String name) {
@@ -36,14 +34,9 @@ public abstract class AbstractItems {
         this.price = price;
     }
 
-    public void setSlotLocation(String slotLocation) {
-        this.slotLocation = slotLocation;
-    }
+
 
     //Constructors
-    public AbstractItems(String slotLocation) {
-        this.slotLocation = slotLocation;
-    }
 
     public AbstractItems(String name, int price) {
         this.name = name;
@@ -56,7 +49,7 @@ public abstract class AbstractItems {
         this.type = type;
     }
 
-    public AbstractItems(String name, String type, int price) {
+    public AbstractItems(String name,  int price, String type) {
         this.name = name;
         this.type = type;
         this.price = price;
@@ -67,13 +60,6 @@ public abstract class AbstractItems {
         this.name = name;
         this.price = price;
     }*/
-
-    public AbstractItems(String slotLocation, String name, int price, String type) {
-        this.slotLocation = slotLocation;
-        this.name = name;
-        this.price = price;
-        this.type = type;
-    }
 
 
     //Methods

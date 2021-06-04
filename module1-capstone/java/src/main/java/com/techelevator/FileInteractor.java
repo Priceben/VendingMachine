@@ -7,23 +7,20 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class FileInteractor {
-    public static void main(String[] args) { //TODO: verify that we can have 2 concurrent psvms
-        File uploadFile = new File("vendingmachine.csv");
+    private File uploadFile ;
+    public FileInteractor(String sourcefile){
+        uploadFile = new File(sourcefile);
+    }
 
-        Map<String, Item> actualInventory = new HashMap<>();
-        Map<String, Integer> testMap = new HashMap<>();
+    public Map<String, ItemInventory> load() { //TODO: verify that we can have 2 concurrent psvms
+
+        Map<String, ItemInventory> actualInventory = new HashMap<>();
 
         try (Scanner inputScanner = new Scanner(uploadFile.getAbsoluteFile())) {
             String searchResults = "";
-            int testCounter = 0;
             while (inputScanner.hasNextLine()) {
                 searchResults = inputScanner.nextLine().replace("|", "@");
                 String[] searchResultsArray = searchResults.split("@", 5);
-
-//                String slotNumber = searchResultsArray[0];
-//                for(String index0 : slotNumber ) {
-//                    String[] newArray += index0 + "@";
-//                }
 
                 //Extracting the values and making them how I want them
                 String slotNumber = searchResultsArray[0];
@@ -33,22 +30,22 @@ public class FileInteractor {
 
                 //Instantiate an item using my new values
                 Item testItem = new Item (name, type, (int)(price * 100));
+                ItemInventory testItemInventory = new ItemInventory(5, testItem);
                 //slotLocation, name, price, type
 
                 //Create a Map
-                actualInventory.put(slotNumber,testItem);
+                actualInventory.put(slotNumber,testItemInventory);
                 actualInventory.get("B4");
                 }
                 
 
-            for(Map.Entry<String, Item> entry : actualInventory.entrySet()) {
-                System.out.println(entry.getKey() + " " + entry.getValue().getName() + " " + entry.getValue().getType() + " " + entry.getValue().getPrice());
-            }
-                System.out.println(testMap);
+            /**/
 
             } catch(FileNotFoundException e) {
                     System.out.println("Oops Something Went Wrong");
 
+        }finally {
+            return actualInventory;
         }
         }
     }
