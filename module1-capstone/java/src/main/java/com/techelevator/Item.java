@@ -20,7 +20,6 @@ public class Item {
     }
 
 
-
     //Setters
     public void setName(String name) {
         this.name = name;
@@ -35,7 +34,6 @@ public class Item {
     }
 
 
-
     //Constructors
 
     public Item(String name, int price) {
@@ -43,7 +41,6 @@ public class Item {
         this.price = price;
     }
 
-    //TODO DELETE THIS IT'S A DUMMY
     public Item(String name, String type) {
         this.name = name;
         this.type = type;

@@ -1,13 +1,22 @@
 package com.techelevator;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
-public class VendingMachine extends Register {
+public class VendingMachine{
     //Instance Variables
     public Map<String, ItemInventory> actualInventory = new HashMap<>();
+    private int balance;//may be public
+    List<Item> purchasedItems = new ArrayList<>();
+
+    //Getters
+    public int getBalance() {
+        return balance;
+    }
+
+    //Setters
+    public void setBalance(int balance) {
+        this.balance = 0;
+    }
 
     //Constructors
     public VendingMachine(FileInteractor fileInteractor){
@@ -22,20 +31,39 @@ public class VendingMachine extends Register {
         }
     }
 
-    @Override
+    public void feedMoney(int money) {
+        if (money % 100 == 0) {
+            this.balance = balance + money;
+        } else{this.balance = balance;}
+    }
+
     public void purchase(Item item) {
-        int registerBalance = getBalance();
-        if(registerBalance >= item.getPrice()) {
-            purchasedItems.add(item);
-            registerBalance = getBalance() - item.getPrice();
+        if(this.balance >= item.getPrice()) {
+            this.balance = balance - item.getPrice();
+
         } else {
-            registerBalance = registerBalance;
+            balance = balance;
         }
+    }
+
+    public String giveChange(){
+        int quarters = 0;
+        int dimes = 0;
+        int nickels = 0;
+        while(balance >= 25){
+            this.balance = balance - 25;
+            quarters++;
+        }
+        while(balance >= 10){
+            this.balance = balance - 10;
+            dimes++;
+        }
+        nickels = this.balance / 5;
+        this.balance = 0;
+        return "Your change is " + quarters + " quarter(s), " + dimes + " dime(s), and " + nickels + " nickel(s).";
+    }
+
     }
 
     //TODO: Make a method for vm to dispense based on user selection
 
-
-
-
-}
