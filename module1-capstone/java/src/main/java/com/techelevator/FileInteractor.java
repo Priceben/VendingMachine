@@ -37,6 +37,7 @@ public class FileInteractor {
 
                 //Create a Map
                 actualInventory.put(slotNumber,testItem);
+                actualInventory.get("B4");
                 }
                 
 
