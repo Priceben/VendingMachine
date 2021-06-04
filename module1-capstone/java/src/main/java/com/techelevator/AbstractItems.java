@@ -50,11 +50,23 @@ public abstract class AbstractItems {
         this.price = price;
     }
 
-    public AbstractItems(String slotLocation, String name, int price) {
+    //TODO DELETE THIS IT'S A DUMMY
+    public AbstractItems(String name, String type) {
+        this.name = name;
+        this.type = type;
+    }
+
+    public AbstractItems(String name, String type, int price) {
+        this.name = name;
+        this.type = type;
+        this.price = price;
+    }
+
+   /* public AbstractItems(String slotLocation, String name, int price) {
         this.slotLocation = slotLocation;
         this.name = name;
         this.price = price;
-    }
+    }*/
 
     public AbstractItems(String slotLocation, String name, int price, String type) {
         this.slotLocation = slotLocation;
