@@ -33,7 +33,7 @@ public class FileInteractor {
                 String type = searchResultsArray[3];
 
                 //Instantiate an item using my new values
-                Item testItem = new Item (name, type, (int)(price * 100));
+                Item testItem = new Item (name, (int)(price * 100), type);
                 ItemInventory testItemInventory = new ItemInventory(5, testItem);
                 //slotLocation, name, price, type
 
