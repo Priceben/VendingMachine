@@ -7,12 +7,16 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class FileInteractor {
+    //Instance Variables
     private File uploadFile ;
+
+    //Constructor
     public FileInteractor(String sourcefile){
         uploadFile = new File(sourcefile);
     }
 
-    public Map<String, ItemInventory> load() { //TODO: verify that we can have 2 concurrent psvms
+    //Method
+    public Map<String, ItemInventory> load() {
 
         Map<String, ItemInventory> actualInventory = new HashMap<>();
 
@@ -35,7 +39,6 @@ public class FileInteractor {
 
                 //Create a Map
                 actualInventory.put(slotNumber,testItemInventory);
-                actualInventory.get("B4");
                 }
                 
 

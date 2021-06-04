@@ -3,7 +3,7 @@ package com.techelevator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Register {
+public abstract class Register {
     //Instance Variables
     private int balance;//may be public
     List<Item> purchasedItems = new ArrayList<>();
@@ -27,9 +27,11 @@ public class Register {
         this.purchasedItems = itemsOnReceipt;
     }
 
-    //Constructors -- Don't think we need them
+    //Constructors
+    public Register(){}
 
     //Methods
+    //TODO: How does Register class access Actual Inventory Map from Vending Machine Class?
     public void purchase(Item item) {
        if(this.balance >= item.getPrice()) {
            purchasedItems.add(item);

@@ -5,7 +5,7 @@ import org.junit.Test;
 
 public class RegisterTests {
 
-    @Test
+/*    @Test
     public void giveChange_shouldReturnLowestNumberOfCoins() {
         //Arrange
         Register test = new Register();
@@ -136,7 +136,7 @@ public class RegisterTests {
 
         //Assert
         Assert.assertEquals(expected, result);
-    }
+    }*/
 
 
 }
