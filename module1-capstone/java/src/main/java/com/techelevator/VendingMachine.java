@@ -24,11 +24,12 @@ public class VendingMachine extends Register {
 
     @Override
     public void purchase(Item item) {
-        if(this.balance >= item.getPrice()) {
+        int registerBalance = getBalance();
+        if(registerBalance >= item.getPrice()) {
             purchasedItems.add(item);
-            this.balance = balance - item.getPrice();
+            registerBalance = getBalance() - item.getPrice();
         } else {
-            balance = balance;
+            registerBalance = registerBalance;
         }
     }
 

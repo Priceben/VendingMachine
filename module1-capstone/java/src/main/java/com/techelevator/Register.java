@@ -34,15 +34,16 @@ public abstract class Register {
     //TODO: How does Register class access Actual Inventory Map from Vending Machine Class?
     public void purchase(Item item) {
        if(this.balance >= item.getPrice()) {
-           purchasedItems.add(item);
            this.balance = balance - item.getPrice();
        } else {
            balance = balance;
        }
     }
 
-    public void feedMoney(int money){
-        this.balance = balance + money;
+    public void feedMoney(int money) {
+        if (money % 100 == 0) {
+            this.balance = balance + money;
+        } else{this.balance = balance;}
     }
 
     public String giveChange(){
