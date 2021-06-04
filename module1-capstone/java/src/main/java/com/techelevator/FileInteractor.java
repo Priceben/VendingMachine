@@ -11,12 +11,13 @@ public class FileInteractor {
         File uploadFile = new File("vendingmachine.csv");
 
         Map<String, Item> actualInventory = new HashMap<>();
+        Map<String, Integer> testMap = new HashMap<>();
 
         try (Scanner inputScanner = new Scanner(uploadFile.getAbsoluteFile())) {
             String searchResults = "";
             int testCounter = 0;
             while (inputScanner.hasNextLine()) {
-                searchResults = inputScanner.nextLine().replace("|","@");
+                searchResults = inputScanner.nextLine().replace("|", "@");
                 String[] searchResultsArray = searchResults.split("@", 5);
 
 //                String slotNumber = searchResultsArray[0];
@@ -37,17 +38,20 @@ public class FileInteractor {
                 //Create a Map
                 actualInventory.put(slotNumber,testItem);
                 }
+                
 
             for(Map.Entry<String, Item> entry : actualInventory.entrySet()) {
                 System.out.println(entry.getKey() + " " + entry.getValue().getName() + " " + entry.getValue().getType() + " " + entry.getValue().getPrice());
             }
+                System.out.println(testMap);
 
-        } catch (FileNotFoundException e) {
-            System.out.println("Oops Something Went Wrong");
+            } catch(FileNotFoundException e) {
+                    System.out.println("Oops Something Went Wrong");
 
         }
+        }
     }
-}
+
 
 //could we do for loop to assign array[0] as key in the map
 //and then array[1] we use to SET our item
