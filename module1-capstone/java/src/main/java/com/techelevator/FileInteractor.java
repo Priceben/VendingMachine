@@ -2,6 +2,7 @@ package com.techelevator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -29,11 +30,11 @@ public class FileInteractor {
                 //Extracting the values and making them how I want them
                 String slotNumber = searchResultsArray[0];
                 String name = searchResultsArray[1];
-                double price = (Double.parseDouble(searchResultsArray[2]));
+                BigDecimal price = (new BigDecimal (searchResultsArray[2]));
                 String type = searchResultsArray[3];
 
                 //Instantiate an item using my new values
-                Item testItem = new Item (name, (int)(price * 100), type);
+                Item testItem = new Item (name, price, type);
                 ItemInventory testItemInventory = new ItemInventory(5, testItem);
                 //slotLocation, name, price, type
 

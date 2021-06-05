@@ -3,6 +3,7 @@ package com.techelevator;
 import com.techelevator.view.Menu;
 
 
+import java.math.BigDecimal;
 import java.sql.SQLOutput;
 import java.util.Map;
 import java.util.Scanner;
@@ -63,7 +64,7 @@ public class VendingMachineCLI {
 					System.out.print("Enter Money: ");
 					try {
 						Scanner enteredMoney = new Scanner(System.in);
-						int money = Integer.parseInt(enteredMoney.nextLine());
+						 BigDecimal money = new BigDecimal(enteredMoney.nextLine().toString());
 						vm.feedMoney(money);
 						System.out.println("Current Money Provided: $" + vm.getBalance());
 					}
@@ -115,8 +116,6 @@ public class VendingMachineCLI {
 		Menu menu = new Menu(System.in, System.out);
 		VendingMachineCLI cli = new VendingMachineCLI(menu);
 		cli.run();
-
-
 
 	}
 

@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -14,17 +14,19 @@ import java.util.*;
 public class VendingMachine {
     //Instance Variables
     public Map<String, ItemInventory> actualInventory = new HashMap<>();
-    private int balance;
+    private BigDecimal zero = new BigDecimal("0");
+    private BigDecimal balance = new BigDecimal("0");
     List<Item> purchasedItems = new ArrayList<>();
 
+
     //Getters
-    public int getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
     //Setters
-    public void setBalance(int balance) {
-        this.balance = 0;
+    public void setBalance(BigDecimal balance) {
+        this.balance = zero;
     }
 
     //Constructors
@@ -40,17 +42,23 @@ public class VendingMachine {
         }
     }
 
-    public void feedMoney(int money) {
-        if (money % 100 == 0) {
-            this.balance = balance + money;
+    public void feedMoney(BigDecimal money) {
+        BigDecimal dollarBill = new BigDecimal("1.0");
+        BigDecimal twoDollarBill = new BigDecimal("2.0");
+        BigDecimal fiveDollarBill = new BigDecimal("5.0");
+        BigDecimal tenDollarBill = new BigDecimal("10.0");
+
+        if (money.compareTo(dollarBill) == 0 || money.compareTo(twoDollarBill) == 0 || money.compareTo(fiveDollarBill) == 0 || money.compareTo(tenDollarBill) == 0) {
+            this.balance = balance.add(money);
         } else {
             this.balance = balance;
         }
     }
 
     public void purchase(String key) {
-        if (this.balance >= actualInventory.get(key).getItem().getPrice()) {
-            this.balance = balance - actualInventory.get(key).getItem().getPrice();
+        BigDecimal itemPrice = new BigDecimal(actualInventory.get(key).getItem().getPrice().toString());
+        if (this.balance.compareTo(itemPrice) == 1) {
+            this.balance = balance.subtract(itemPrice);
             actualInventory.get(key).setInventoryCount(actualInventory.get(key).getInventoryCount() - 1);
         } else {
             balance = balance;
@@ -73,16 +81,20 @@ public class VendingMachine {
         int quarters = 0;
         int dimes = 0;
         int nickels = 0;
-        while (balance >= 25) {
-            this.balance = balance - 25;
+        BigDecimal quarterWorth = new BigDecimal(".25");
+        BigDecimal dimeWorth = new BigDecimal(".10");
+        BigDecimal nickelWorth = new BigDecimal(".05");
+
+        while (balance.compareTo(quarterWorth) == 1 || balance.compareTo(quarterWorth) == 0) {
+            this.balance.subtract(quarterWorth);
             quarters++;
         }
-        while (balance >= 10) {
-            this.balance = balance - 10;
+        while (balance.compareTo(dimeWorth) == 1 || balance.compareTo(dimeWorth) == 0) {
+            this.balance.subtract(dimeWorth);
             dimes++;
         }
-        nickels = this.balance / 5;
-        this.balance = 0;
+        nickels = (this.balance.divide(nickelWorth).intValue());
+        this.balance.equals(zero);
         System.out.println("Your change is " + quarters + " quarter(s), " + dimes + " dime(s), and " + nickels + " nickel(s).");
     }
 
@@ -129,7 +141,8 @@ public class VendingMachine {
     }
 
     public boolean isThereEnoughBalance (String key){
-        if(getBalance() >= actualInventory.get(key).getItem().getPrice()){
+        BigDecimal itemPrice = new BigDecimal(actualInventory.get(key).getItem().getPrice().toString());
+        if(getBalance().compareTo(itemPrice) == 1 || getBalance().compareTo(itemPrice) == 0){
             return true;
         } return false;
     }

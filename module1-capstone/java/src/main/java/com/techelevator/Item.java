@@ -1,9 +1,11 @@
 package com.techelevator;
 
+import java.math.BigDecimal;
+
 public class Item {
     private String name;
     private String type;
-    private int price;
+    private BigDecimal price;
 
 
     //Getters
@@ -15,7 +17,7 @@ public class Item {
         return type;
     }
 
-    public int getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
@@ -29,13 +31,13 @@ public class Item {
         this.type = type;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
 
     //Constructors
-    public Item(String name, int price) {
+    public Item(String name, BigDecimal price) {
         this.name = name;
         this.price = price;
     }
@@ -45,7 +47,7 @@ public class Item {
         this.type = type;
     }
 
-    public Item(String name, int price, String type) {
+    public Item(String name, BigDecimal price, String type) {
         this.name = name;
         this.type = type;
         this.price = price;
