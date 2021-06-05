@@ -4,8 +4,6 @@ import com.techelevator.view.Menu;
 
 
 import java.math.BigDecimal;
-import java.sql.SQLOutput;
-import java.util.Map;
 import java.util.Scanner;
 
 public class VendingMachineCLI {
@@ -60,13 +58,14 @@ public class VendingMachineCLI {
 			while(menuLoop.equals(PURCHASE_LOOP)) {
 				choice = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
 				if (choice.equals(PURCHASE_MENU_OPTION_ADD_MONEY)) {
-					System.out.println("Current Money Provided: $" + vm.getBalance());
+					System.out.println("Current Money Provided: $" + vm.getPreviousBalance());
 					System.out.print("Enter Money: ");
 					try {
 						Scanner enteredMoney = new Scanner(System.in);
-						 BigDecimal money = new BigDecimal(enteredMoney.nextLine().toString());
+						BigDecimal money = new BigDecimal(enteredMoney.nextLine().toString());
 						vm.feedMoney(money);
-						System.out.println("Current Money Provided: $" + vm.getBalance());
+						vm.log(choice);
+						System.out.println("Current Money Provided: $" + vm.getNewBalance());
 					}
 					catch (NumberFormatException e) {
 						System.out.println("Number entered is invalid! Can only enter integers in 100 increments.");
@@ -83,9 +82,8 @@ public class VendingMachineCLI {
 							if(vm.isInStock(key) && vm.isThereEnoughBalance(key)) {
 								vm.purchase(key);
 								vm.dispense(key);
-								vm.testLog(key, choice);
-								//vm.log(key, choice);
-								System.out.println("Remaining Money Available: $" + vm.getBalance());
+								vm.log(choice);
+								System.out.println("Remaining Money Available: $" + vm.getNewBalance());
 							} else if(!vm.isInStock(key)) {
 								System.out.println("Sold Out!");
 							} else if (!vm.isThereEnoughBalance(key)) {
@@ -103,6 +101,7 @@ public class VendingMachineCLI {
 				}
 				if (choice.equals(PURCHASE_MENU_OPTION_CASH_OUT)) {
 					vm.giveChange();
+					vm.log(choice);
 					menuLoop = MAIN_LOOP;
 				}
 				if (choice.equals(PURCHASE_MENU_OPTION_PREVIOUS_MENU)) {
