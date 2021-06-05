@@ -82,25 +82,21 @@ public class VendingMachineCLI {
 					}
 				}
 				if (choice.equals(PURCHASE_MENU_OPTION_BUY_ITEM)) {
-					// -return to main purchase menu - if sold out, "Sold Out"
-					// --calling purchase-- display stupid message
 					vm.displayInventory();
 					System.out.println("Enter code for Item you wish to purchase: ");
 					try {
 						Scanner enteredKey = new Scanner(System.in);
-						//TODO: IMPLEMENT THE IGNORE CASE THING IF WE WANT
 						String key = enteredKey.nextLine().toUpperCase();
 
-
 						if(vm.actualInventory.containsKey(key)){
-							if(vm.actualInventory.get(key).getInventoryCount() > 0 && vm.getBalance() >= vm.actualInventory.get(key).getItem().getPrice()) {
-								vm.purchase(vm.actualInventory.get(key).getItem());
-								vm.actualInventory.get(key).setInventoryCount(vm.actualInventory.get(key).getInventoryCount() - 1);
-								vm.dispense(vm.actualInventory.get(key).getItem());
+							if(vm.isInStock(key) && vm.isThereEnoughBalance(key)) {
+								vm.purchase(key);
+								vm.dispense(key);
+								vm.log(key);
 								System.out.println("Remaining Money Available: $" + vm.getBalance());
-							} else if(vm.actualInventory.get(key).getInventoryCount() == 0) {
+							} else if(!vm.isInStock(key)) {
 								System.out.println("Sold Out!");
-							} else if (vm.getBalance() < vm.actualInventory.get(key).getItem().getPrice()) {
+							} else if (!vm.isThereEnoughBalance(key)) {
 								System.out.println("Not enough balance!");
 							}
 						} else {
@@ -108,7 +104,7 @@ public class VendingMachineCLI {
 						}
 
 					}
-					catch (NumberFormatException e) {//todo: will need to change exception
+					catch (NumberFormatException e) {
 						System.out.println("Number entered is invalid! Can only enter integers in 100 increments.");
 					}
 

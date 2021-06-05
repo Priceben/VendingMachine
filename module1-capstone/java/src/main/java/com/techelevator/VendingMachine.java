@@ -4,12 +4,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class VendingMachine {
     //Instance Variables
     public Map<String, ItemInventory> actualInventory = new HashMap<>();
-    private int balance;//may be public
+    private int balance;
     List<Item> purchasedItems = new ArrayList<>();
 
     //Getters
@@ -43,27 +47,26 @@ public class VendingMachine {
         }
     }
 
-    public void purchase(Item item) {
-        if (this.balance >= item.getPrice()) {
-            this.balance = balance - item.getPrice();
-
+    public void purchase(String key) {
+        if (this.balance >= actualInventory.get(key).getItem().getPrice()) {
+            this.balance = balance - actualInventory.get(key).getItem().getPrice();
+            actualInventory.get(key).setInventoryCount(actualInventory.get(key).getInventoryCount() - 1);
         } else {
             balance = balance;
         }
     }
 
-    public void dispense(Item item) {
-        if (item.getType().equals("Chip")) {
+    public void dispense(String key) {
+        if (actualInventory.get(key).getItem().getType().equals("Chip")) {
             System.out.println("Crunch Crunch, Yum!");
-        } else if (item.getType().equals("Candy")) {
+        } else if (actualInventory.get(key).getItem().getType().equals("Candy")) {
             System.out.println("Munch Munch, Yum!");
-        } else if (item.getType().equals("Drink")) {
+        } else if (actualInventory.get(key).getItem().getType().equals("Drink")) {
             System.out.println("Glug Glug, Yum!");
-        } else if (item.getType().equals("Gum")) {
+        } else if (actualInventory.get(key).getItem().getType().equals("Gum")) {
             System.out.println("Chew Chew, Yum!");
         }
     }
-
 
     public void giveChange() {
         int quarters = 0;
@@ -83,23 +86,41 @@ public class VendingMachine {
     }
 
 
-    /*public void log() {
-        File logFile = new File("log.txt");
+    public void log(String key) {
+        File logFile = new File("C:\\Users\\Student\\workspace\\green-mod1-capstone-team2\\module1-capstone\\java\\src\\main\\java\\com\\techelevator\\log.txt");
         try (PrintWriter logWriter = new PrintWriter(new FileOutputStream(logFile.getAbsoluteFile(), true), true)) {
-            logWriter.write(actualInventory.get());
+           // logWriter.write(actualInventory.get(key).getItem().getName());
+            DateTimeFormatter americanDateFormat = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+            String americanDate = LocalDate.now().format(americanDateFormat);
+          //  logWriter.write(americanDate + " " + LocalTime.now() + LocalDateTime.now());
+            logWriter.write(americanDate + " " + LocalTime.now());
+
+
         } catch (FileNotFoundException e) {
             System.out.println("Oops Something Went Wrong");
         }
 
-    }*/
 
-    public boolean test(String key){
-        if(actualInventory.containsKey(key)){
+        //01/01/2016 12:00:00 PM FEED MONEY: \$5.00 \$5.00
+        //
+        //>01/01/2016 12:00:15 PM FEED MONEY: \$5.00 \$10.00
+        //>01/01/2016 12:00:20 PM Crunchie B4 \$10.00 \$8.50
+        //>01/01/2016 12:01:25 PM Cowtales B2 \$8.50 \$7.50
+        //>01/01/2016 12:01:35 PM GIVE CHANGE: \$7.50 \$0.00
+
+    }
+
+    public boolean isInStock(String key){
+        if(actualInventory.get(key).getInventoryCount() > 0){
+            return true;
+        } return false;
+    }
+
+    public boolean isThereEnoughBalance (String key){
+        if(getBalance() >= actualInventory.get(key).getItem().getPrice()){
             return true;
         } return false;
     }
 
 }
-
-    //TODO: Make a method for vm to dispense based on user selection
 
