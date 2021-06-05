@@ -45,20 +45,10 @@ public class VendingMachineCLI {
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
 
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
-				// display vending machine items
 				vm.displayInventory();
 
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
-				// do purchase
-				//display sub menu
-				// 1. feed money-- call feedMoney--updates balance
 				menuLoop = PURCHASE_LOOP;
-
-
-
-				// 3. finish transaction-- give change--return to main menu-- appends log
-				// ** print out current balance-- update balance back to $0
-				//register.feedMoney
 
 			} else if (choice.equals(MAIN_MENU_OPTION_EXIT)) {
 				System.exit(1);
@@ -92,7 +82,8 @@ public class VendingMachineCLI {
 							if(vm.isInStock(key) && vm.isThereEnoughBalance(key)) {
 								vm.purchase(key);
 								vm.dispense(key);
-								vm.log(key);
+								vm.testLog(key, choice);
+								//vm.log(key, choice);
 								System.out.println("Remaining Money Available: $" + vm.getBalance());
 							} else if(!vm.isInStock(key)) {
 								System.out.println("Sold Out!");
@@ -121,7 +112,6 @@ public class VendingMachineCLI {
 	}
 
 	public static void main(String[] args) {
-
 		Menu menu = new Menu(System.in, System.out);
 		VendingMachineCLI cli = new VendingMachineCLI(menu);
 		cli.run();

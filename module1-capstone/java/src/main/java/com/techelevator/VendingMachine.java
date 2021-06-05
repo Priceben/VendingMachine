@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.*;
 
 public class VendingMachine {
@@ -85,29 +86,40 @@ public class VendingMachine {
         System.out.println("Your change is " + quarters + " quarter(s), " + dimes + " dime(s), and " + nickels + " nickel(s).");
     }
 
-
-    public void log(String key) {
+    String choice = "";
+    public void log(String key, String choice) {
         File logFile = new File("C:\\Users\\Student\\workspace\\green-mod1-capstone-team2\\module1-capstone\\java\\src\\main\\java\\com\\techelevator\\log.txt");
         try (PrintWriter logWriter = new PrintWriter(new FileOutputStream(logFile.getAbsoluteFile(), true), true)) {
-           // logWriter.write(actualInventory.get(key).getItem().getName());
-            DateTimeFormatter americanDateFormat = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+
+            DateTimeFormatter americanDateFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy");
             String americanDate = LocalDate.now().format(americanDateFormat);
-          //  logWriter.write(americanDate + " " + LocalTime.now() + LocalDateTime.now());
-            logWriter.write(americanDate + " " + LocalTime.now());
+
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
+            String rightFormat = LocalTime.now().format(timeFormatter);
+
+            logWriter.write(americanDate + " " + rightFormat);
 
 
         } catch (FileNotFoundException e) {
             System.out.println("Oops Something Went Wrong");
         }
+        }
 
-
-        //01/01/2016 12:00:00 PM FEED MONEY: \$5.00 \$5.00
-        //
-        //>01/01/2016 12:00:15 PM FEED MONEY: \$5.00 \$10.00
-        //>01/01/2016 12:00:20 PM Crunchie B4 \$10.00 \$8.50
-        //>01/01/2016 12:01:25 PM Cowtales B2 \$8.50 \$7.50
-        //>01/01/2016 12:01:35 PM GIVE CHANGE: \$7.50 \$0.00
-
+    public void testLog(String key, String choice) {
+        if (choice.equals("PURCHASE_MENU_OPTION_BUY_ITEM")) {
+            File logFile = new File("C:\\Users\\Student\\workspace\\green-mod1-capstone-team2\\module1-capstone\\java\\src\\main\\java\\com\\techelevator\\log.txt");
+            try (PrintWriter logWriter = new PrintWriter(new FileOutputStream(logFile.getAbsoluteFile(), true), true)) {
+                logWriter.write("hiiiiiiiiiiii it's me!");
+            } catch (FileNotFoundException e) {
+                System.out.println("Oops Something Went Wrong");
+            }
+        }
+        if (choice.equals("PURCHASE_MENU_OPTION_BUY_ITEM")) {
+            //write the logic to pull the name and price of the key given
+        }
+        if (choice.equals("PURCHASE_MENU_OPTION_CASH_OUT")) {
+            //write the logic
+        }
     }
 
     public boolean isInStock(String key){

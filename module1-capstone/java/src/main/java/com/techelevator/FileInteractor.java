@@ -40,9 +40,7 @@ public class FileInteractor {
                 //Create a Map
                 actualInventory.put(slotNumber,testItemInventory);
                 }
-                
 
-            /**/
 
             } catch(FileNotFoundException e) {
                     System.out.println("Oops Something Went Wrong");
@@ -52,9 +50,3 @@ public class FileInteractor {
         }
         }
     }
-
-
-//could we do for loop to assign array[0] as key in the map
-//and then array[1] we use to SET our item
-//for each item
-

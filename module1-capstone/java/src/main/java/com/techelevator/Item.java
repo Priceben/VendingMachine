@@ -35,7 +35,6 @@ public class Item {
 
 
     //Constructors
-
     public Item(String name, int price) {
         this.name = name;
         this.price = price;
@@ -51,17 +50,6 @@ public class Item {
         this.type = type;
         this.price = price;
     }
-
-   /* public AbstractItems(String slotLocation, String name, int price) {
-        this.slotLocation = slotLocation;
-        this.name = name;
-        this.price = price;
-    }*/
-
-
-    //Methods
-    //TODO: Update Inventory Method? Not sure
-    //TODO: Do we need dispensable? We think no, but just in case...
 
 
 }
