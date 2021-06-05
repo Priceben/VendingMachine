@@ -46,7 +46,20 @@ public class VendingMachine{
         }
     }
 
-    public String giveChange(){
+    public void dispense(Item item) {
+        if(item.getType().equals("Chip")) {
+            System.out.println("Crunch Crunch, Yum!");
+        } else if (item.getType().equals("Candy")) {
+            System.out.println("Munch Munch, Yum!");
+        } else if (item.getType().equals("Drink")) {
+            System.out.println("Glug Glug, Yum!");
+        } else if (item.getType().equals("Gum")){
+            System.out.println("Chew Chew, Yum!");
+        }
+    }
+
+
+    public void giveChange(){
         int quarters = 0;
         int dimes = 0;
         int nickels = 0;
@@ -60,7 +73,7 @@ public class VendingMachine{
         }
         nickels = this.balance / 5;
         this.balance = 0;
-        return "Your change is " + quarters + " quarter(s), " + dimes + " dime(s), and " + nickels + " nickel(s).";
+        System.out.println("Your change is " + quarters + " quarter(s), " + dimes + " dime(s), and " + nickels + " nickel(s).");
     }
 
     }

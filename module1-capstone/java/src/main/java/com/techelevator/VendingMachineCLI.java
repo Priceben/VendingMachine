@@ -82,21 +82,28 @@ public class VendingMachineCLI {
 					}
 				}
 				if (choice.equals(PURCHASE_MENU_OPTION_BUY_ITEM)) {
-					// 2. Display products- select product, userInput Scanner to validate user choice
 					// -return to main purchase menu - if sold out, "Sold Out"
 					// --calling purchase-- display stupid message
 					vm.displayInventory();
 					System.out.println("Enter code for Item you wish to purchase: ");
 					try {
 						Scanner enteredKey = new Scanner(System.in);
+						//TODO: IMPLEMENT THE IGNORE CASE THING IF WE WANT
 						String key = enteredKey.nextLine();
 						if(vm.actualInventory.containsKey(key)){
-							vm.purchase(vm.actualInventory.get(key).getItem());
-							System.out.println("Remaining Money Available: $" + vm.getBalance());
-							vm.actualInventory.get(key).setInventoryCount(vm.actualInventory.get(key).getInventoryCount() - 1);
-							System.out.println(vm.actualInventory.get(key).getInventoryCount());
+							if(vm.actualInventory.get(key).getInventoryCount() > 0 && vm.getBalance() >= vm.actualInventory.get(key).getItem().getPrice()) {
+								vm.purchase(vm.actualInventory.get(key).getItem());
+								vm.actualInventory.get(key).setInventoryCount(vm.actualInventory.get(key).getInventoryCount() - 1);
+								vm.dispense(vm.actualInventory.get(key).getItem());
+								System.out.println("Remaining Money Available: $" + vm.getBalance());
+							} else if(vm.actualInventory.get(key).getInventoryCount() == 0) {
+								System.out.println("Sold Out!");
+							} else if (vm.getBalance() < vm.actualInventory.get(key).getItem().getPrice()) {
+								System.out.println("Not enough balance!");
+							}
+						} else {
+							System.out.println("Key Not Recognized. Try Again!");
 						}
-
 
 					}
 					catch (NumberFormatException e) {//todo: will need to change exception
@@ -105,8 +112,8 @@ public class VendingMachineCLI {
 
 				}
 				if (choice.equals(PURCHASE_MENU_OPTION_CASH_OUT)) {
-
-
+					vm.giveChange();
+					menuLoop = MAIN_LOOP;
 				}
 				if (choice.equals(PURCHASE_MENU_OPTION_PREVIOUS_MENU)) {
 					menuLoop = MAIN_LOOP;
