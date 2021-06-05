@@ -17,7 +17,9 @@ public class VendingMachine {
     private BigDecimal zero = new BigDecimal("0");
     private BigDecimal balance = new BigDecimal("0");
     List<Item> purchasedItems = new ArrayList<>();
-
+    BigDecimal quarterWorth = new BigDecimal(".25");
+    BigDecimal dimeWorth = new BigDecimal(".10");
+    BigDecimal nickelWorth = new BigDecimal(".05");
 
     //Getters
     public BigDecimal getBalance() {
@@ -52,6 +54,7 @@ public class VendingMachine {
             this.balance = balance.add(money);
         } else {
             this.balance = balance;
+            System.out.println("This machine only accepts $1, $2, $5 & $10 bills.");
         }
     }
 
@@ -81,19 +84,19 @@ public class VendingMachine {
         int quarters = 0;
         int dimes = 0;
         int nickels = 0;
-        BigDecimal quarterWorth = new BigDecimal(".25");
-        BigDecimal dimeWorth = new BigDecimal(".10");
-        BigDecimal nickelWorth = new BigDecimal(".05");
 
-        while (balance.compareTo(quarterWorth) == 1 || balance.compareTo(quarterWorth) == 0) {
+        while (this.balance.compareTo(quarterWorth) == 1 || this.balance.compareTo(quarterWorth) == 0) {
             this.balance.subtract(quarterWorth);
             quarters++;
         }
-        while (balance.compareTo(dimeWorth) == 1 || balance.compareTo(dimeWorth) == 0) {
+        while (this.balance.compareTo(dimeWorth) == 1 || this.balance.compareTo(dimeWorth) == 0) {
             this.balance.subtract(dimeWorth);
             dimes++;
         }
-        nickels = (this.balance.divide(nickelWorth).intValue());
+        while (this.balance.compareTo(nickelWorth) == 1 || this.balance.compareTo(nickelWorth) == 0) {
+            this.balance.subtract(nickelWorth);
+            nickels++;
+        }
         this.balance.equals(zero);
         System.out.println("Your change is " + quarters + " quarter(s), " + dimes + " dime(s), and " + nickels + " nickel(s).");
     }
