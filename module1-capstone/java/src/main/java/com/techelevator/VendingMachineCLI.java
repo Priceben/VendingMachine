@@ -89,7 +89,9 @@ public class VendingMachineCLI {
 					try {
 						Scanner enteredKey = new Scanner(System.in);
 						//TODO: IMPLEMENT THE IGNORE CASE THING IF WE WANT
-						String key = enteredKey.nextLine();
+						String key = enteredKey.nextLine().toUpperCase();
+
+
 						if(vm.actualInventory.containsKey(key)){
 							if(vm.actualInventory.get(key).getInventoryCount() > 0 && vm.getBalance() >= vm.actualInventory.get(key).getItem().getPrice()) {
 								vm.purchase(vm.actualInventory.get(key).getItem());

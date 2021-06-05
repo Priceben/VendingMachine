@@ -1,8 +1,12 @@
 package com.techelevator;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.util.*;
 
-public class VendingMachine{
+public class VendingMachine {
     //Instance Variables
     public Map<String, ItemInventory> actualInventory = new HashMap<>();
     private int balance;//may be public
@@ -19,12 +23,12 @@ public class VendingMachine{
     }
 
     //Constructors
-    public VendingMachine(FileInteractor fileInteractor){
+    public VendingMachine(FileInteractor fileInteractor) {
         this.actualInventory = fileInteractor.load();
     }
 
     //Methods
-    public void displayInventory(){
+    public void displayInventory() {
         Map<String, ItemInventory> orderedInventory = new TreeMap<String, ItemInventory>(actualInventory);
         for (Map.Entry<String, ItemInventory> entry : orderedInventory.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getValue().getItem().getName() + ", $" + entry.getValue().getItem().getPrice() + ", " + entry.getValue().getItem().getType() + ", " + entry.getValue().getInventoryCount());
@@ -34,11 +38,13 @@ public class VendingMachine{
     public void feedMoney(int money) {
         if (money % 100 == 0) {
             this.balance = balance + money;
-        } else{this.balance = balance;}
+        } else {
+            this.balance = balance;
+        }
     }
 
     public void purchase(Item item) {
-        if(this.balance >= item.getPrice()) {
+        if (this.balance >= item.getPrice()) {
             this.balance = balance - item.getPrice();
 
         } else {
@@ -47,27 +53,27 @@ public class VendingMachine{
     }
 
     public void dispense(Item item) {
-        if(item.getType().equals("Chip")) {
+        if (item.getType().equals("Chip")) {
             System.out.println("Crunch Crunch, Yum!");
         } else if (item.getType().equals("Candy")) {
             System.out.println("Munch Munch, Yum!");
         } else if (item.getType().equals("Drink")) {
             System.out.println("Glug Glug, Yum!");
-        } else if (item.getType().equals("Gum")){
+        } else if (item.getType().equals("Gum")) {
             System.out.println("Chew Chew, Yum!");
         }
     }
 
 
-    public void giveChange(){
+    public void giveChange() {
         int quarters = 0;
         int dimes = 0;
         int nickels = 0;
-        while(balance >= 25){
+        while (balance >= 25) {
             this.balance = balance - 25;
             quarters++;
         }
-        while(balance >= 10){
+        while (balance >= 10) {
             this.balance = balance - 10;
             dimes++;
         }
@@ -76,7 +82,24 @@ public class VendingMachine{
         System.out.println("Your change is " + quarters + " quarter(s), " + dimes + " dime(s), and " + nickels + " nickel(s).");
     }
 
+
+    /*public void log() {
+        File logFile = new File("log.txt");
+        try (PrintWriter logWriter = new PrintWriter(new FileOutputStream(logFile.getAbsoluteFile(), true), true)) {
+            logWriter.write(actualInventory.get());
+        } catch (FileNotFoundException e) {
+            System.out.println("Oops Something Went Wrong");
+        }
+
+    }*/
+
+    public boolean test(String key){
+        if(actualInventory.containsKey(key)){
+            return true;
+        } return false;
     }
+
+}
 
     //TODO: Make a method for vm to dispense based on user selection
 
