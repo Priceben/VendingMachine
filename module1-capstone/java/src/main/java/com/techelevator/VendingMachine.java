@@ -60,7 +60,6 @@ public class VendingMachine {
         BigDecimal fiveDollarBill = new BigDecimal("5.0");
         BigDecimal tenDollarBill = new BigDecimal("10.0");
 
-
         if (money.compareTo(dollarBill) == 0 || money.compareTo(twoDollarBill) == 0 || money.compareTo(fiveDollarBill) == 0 || money.compareTo(tenDollarBill) == 0) {
             //this.previousBalance = previousBalance;
             this.newBalance = previousBalance.add(money);
@@ -78,7 +77,7 @@ public class VendingMachine {
             this.newBalance = previousBalance.subtract(itemPrice);
             actualInventory.get(key).setInventoryCount(actualInventory.get(key).getInventoryCount() - 1);
         } else {
-            previousBalance = previousBalance;
+            this.newBalance = previousBalance;
         }
     }
 
@@ -109,7 +108,7 @@ public class VendingMachine {
     public void purchaseLog(String key) {
         File logFile = new File("log.txt");
         if (logFile.exists()) {
-            try (PrintWriter logWriter = new PrintWriter(new FileOutputStream(logFile.getAbsoluteFile(), true))) {
+            try (PrintWriter logWriter = new PrintWriter(new FileOutputStream(logFile, true),true)) {
 
                 DateTimeFormatter americanDateFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy");
                 String americanDate = LocalDate.now().format(americanDateFormat);
@@ -117,9 +116,7 @@ public class VendingMachine {
                 DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
                 String rightFormat = LocalTime.now().format(timeFormatter);
                 if (actualInventory.containsKey(key)) {
-                    logWriter.append(americanDate + " " + rightFormat + " " + actualInventory.get(key).getItem().getName() + " " + key.toUpperCase() + ": \\$" + getPreviousBalance() + " \\$" + getNewBalance() + "\n");
-                    logWriter.flush();
-                    logWriter.close();
+                    logWriter.write(americanDate + " " + rightFormat + " " + actualInventory.get(key).getItem().getName() + " " + key.toUpperCase() + ": \\$" + getPreviousBalance() + " \\$" + getNewBalance() + "\n");
                 }
             } catch (FileNotFoundException e) {
                 System.out.println("Oops Something Went Wrong");
@@ -127,29 +124,29 @@ public class VendingMachine {
         }
     }
 
-        public void log (String choice){
+        public void log (String choice) {
+            File logFile = new File("log.txt");
+            if (logFile.exists()) {
+                try (PrintWriter logWriter = new PrintWriter(new FileOutputStream(logFile,true),true)) {
 
-            File logFile = new File("C:\\Users\\Student\\workspace\\green-mod1-capstone-team2\\module1-capstone\\java\\src\\main\\java\\com\\techelevator\\log.txt");
-            try (PrintWriter logWriter = new PrintWriter(new FileOutputStream(logFile.getAbsoluteFile(), true), true)) {
+                    DateTimeFormatter americanDateFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+                    String americanDate = LocalDate.now().format(americanDateFormat);
 
-                DateTimeFormatter americanDateFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-                String americanDate = LocalDate.now().format(americanDateFormat);
+                    DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
+                    String rightFormat = LocalTime.now().format(timeFormatter);
 
-                DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
-                String rightFormat = LocalTime.now().format(timeFormatter);
+                    if (choice.equals("Add Money")) {
+                        logWriter.write(americanDate + " " + rightFormat + " " + choice.toUpperCase() + ": \\$" + getPreviousBalance() + " \\$" + getNewBalance() + "\n");
+                    }
 
-                if (choice.equals("Add Money")) {
-                    logWriter.write(americanDate + " " + rightFormat + " " + choice.toUpperCase() + ": \\$" + getPreviousBalance() + " \\$" + getNewBalance() + "\n");
+                    if (choice.equals("Cash out")) {
+                        logWriter.write(americanDate + " " + rightFormat + " " + choice.toUpperCase() + ": \\$" + getPreviousBalance() + " \\$" + getNewBalance() + "\n");
+                        previousBalance = zero;
+                    }
+
+                } catch (FileNotFoundException e) {
+                    System.out.println("Oops Something Went Wrong");
                 }
-
-                if (choice.equals("Cash out")) {
-                    logWriter.write(americanDate + " " + rightFormat + " " + choice.toUpperCase() + ": \\$" + getPreviousBalance() + " \\$" + getNewBalance() + "\n");
-                    previousBalance = zero;
-                }
-
-
-            } catch (FileNotFoundException e) {
-                System.out.println("Oops Something Went Wrong");
             }
         }
 

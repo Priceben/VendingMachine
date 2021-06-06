@@ -35,6 +35,10 @@ public class VendingMachineCLI {
 
 	public void run() {
 
+
+		System.out.println("***************************************************");
+		System.out.println("Welcome to Ben & Erin's Super Cool Vending Machine!");
+		System.out.println("***************************************************");
 		String menuLoop = MAIN_LOOP;
 
 		while (true) {
@@ -50,8 +54,11 @@ public class VendingMachineCLI {
 				menuLoop = PURCHASE_LOOP;
 
 			} else if (choice.equals(MAIN_MENU_OPTION_EXIT)) {
+				System.out.println("**********************");
+				System.out.println("Thanks, Come Again!");
+				System.out.println("We Love Our Customers!");
+				System.out.println("**********************");
 				System.exit(1);
-				//TODO: Make sure the VM resets at this point?
 			}
 
 			// PURCHASE SUB MENU LOOP - LOOP LEVEL 0-1-0
@@ -79,7 +86,7 @@ public class VendingMachineCLI {
 						Scanner enteredKey = new Scanner(System.in);
 						String key = enteredKey.nextLine().toUpperCase();
 
-						if(vm.actualInventory.containsKey(key)){  //isValidKey
+						if(vm.actualInventory.containsKey(key)){
 							if(vm.isInStock(key) && vm.isThereEnoughBalance(key)) {
 								vm.purchase(key);
 								vm.dispense(key);
