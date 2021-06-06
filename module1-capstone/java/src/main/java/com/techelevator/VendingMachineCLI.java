@@ -73,6 +73,7 @@ public class VendingMachineCLI {
 				}
 				if (choice.equals(PURCHASE_MENU_OPTION_BUY_ITEM)) {
 					vm.displayInventory();
+					System.out.println("Current Money Provided: $" + vm.getNewBalance());
 					System.out.println("Enter code for Item you wish to purchase: ");
 					try {
 						Scanner enteredKey = new Scanner(System.in);

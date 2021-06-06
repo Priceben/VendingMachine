@@ -59,7 +59,7 @@ public class VendingMachine {
         BigDecimal twoDollarBill = new BigDecimal("2.0");
         BigDecimal fiveDollarBill = new BigDecimal("5.0");
         BigDecimal tenDollarBill = new BigDecimal("10.0");
-        this.previousBalance = newBalance;
+
 
         if (money.compareTo(dollarBill) == 0 || money.compareTo(twoDollarBill) == 0 || money.compareTo(fiveDollarBill) == 0 || money.compareTo(tenDollarBill) == 0) {
             //this.previousBalance = previousBalance;
@@ -68,6 +68,7 @@ public class VendingMachine {
             this.previousBalance = previousBalance;
             System.out.println("This machine only accepts $1, $2, $5 & $10 bills.");
         }
+        this.previousBalance = newBalance;
     }
 
     public void purchase(String key) {
@@ -95,31 +96,34 @@ public class VendingMachine {
 
     public void giveChange() {
         previousBalance = newBalance;
-        double balance1 = (newBalance.doubleValue() * 100);
-        int quarters1 = ((int) balance1 / 25);
-        balance1 = balance1 - (quarters1 * 25);
-        int dimes1 = ((int) balance1 / 10);
-        balance1 = balance1 - (dimes1 * 10);
-        int nickels1 = ((int) balance1 / 5);
+        double balance = (newBalance.doubleValue() * 100);
+        int quarters = ((int) balance / 25);
+        balance = balance - (quarters * 25);
+        int dimes = ((int) balance / 10);
+        balance = balance - (dimes * 10);
+        int nickels = ((int) balance / 5);
         newBalance = zero;
-        System.out.println("Your change is " + quarters1 + " quarter(s), " + dimes1 + " dime(s), and " + nickels1 + " nickel(s).");
+        System.out.println("Your change is " + quarters + " quarter(s), " + dimes + " dime(s), and " + nickels + " nickel(s).");
     }
 
     public void purchaseLog(String key) {
-        File logFile = new File("C:\\Users\\Student\\workspace\\green-mod1-capstone-team2\\module1-capstone\\java\\src\\main\\java\\com\\techelevator\\log.txt");
+        File logFile = new File("log.txt");
+        if (logFile.exists()) {
+            try (PrintWriter logWriter = new PrintWriter(new FileOutputStream(logFile.getAbsoluteFile(), true))) {
 
-        try (PrintWriter logWriter = new PrintWriter(new FileOutputStream(logFile.getAbsoluteFile(), true), true)) {
+                DateTimeFormatter americanDateFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+                String americanDate = LocalDate.now().format(americanDateFormat);
 
-            DateTimeFormatter americanDateFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-            String americanDate = LocalDate.now().format(americanDateFormat);
-
-            DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
-            String rightFormat = LocalTime.now().format(timeFormatter);
-            if (actualInventory.containsKey(key)) {
-                logWriter.write(americanDate + " " + rightFormat + " " + actualInventory.get(key).getItem().getName() + " " + key.toUpperCase() +  ": \\$" + getPreviousBalance() + " \\$" + getNewBalance() + "\n");
+                DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
+                String rightFormat = LocalTime.now().format(timeFormatter);
+                if (actualInventory.containsKey(key)) {
+                    logWriter.append(americanDate + " " + rightFormat + " " + actualInventory.get(key).getItem().getName() + " " + key.toUpperCase() + ": \\$" + getPreviousBalance() + " \\$" + getNewBalance() + "\n");
+                    logWriter.flush();
+                    logWriter.close();
+                }
+            } catch (FileNotFoundException e) {
+                System.out.println("Oops Something Went Wrong");
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("Oops Something Went Wrong");
         }
     }
 
@@ -163,7 +167,7 @@ public class VendingMachine {
         }
 
         public boolean isThereEnoughBalance (String key){
-           // this.previousBalance = newBalance;
+           this.previousBalance = newBalance;
             BigDecimal itemPrice = new BigDecimal(actualInventory.get(key).getItem().getPrice().toString());
             if (getPreviousBalance().compareTo(itemPrice) == 1 || getPreviousBalance().compareTo(itemPrice) == 0) {
                 return true;

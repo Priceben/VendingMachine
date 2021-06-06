@@ -48,60 +48,123 @@ public class VendingMachineTests {
     }
 
     @Test
-    public void isThereEnoughBalance_shouldReturnTrue() {
+    public void isThereEnoughBalance_ifBalanceIsGreaterThanItemPriceAndKeyIsInCorrectCase_shouldReturnTrue() {
         //Arrange
         VendingMachine testVM = new VendingMachine(new FileInteractor("vendingmachine.csv"));
         BigDecimal test = new BigDecimal("5.00");
-        testVM.setPreviousBalance(test);
-        boolean expected = true;
+        testVM.feedMoney(test);
 
         //Act
+        boolean result = testVM.isThereEnoughBalance("A4");
 
 
         //Assert
+        Assert.assertTrue(result);
     }
-
-   /* @Test
-    public void giveChange_shouldReturnLowestNumberOfCoins() {
+    @Test
+    public void isThereEnoughBalance_ifBalanceIsLessThanItemPriceAndKeyIsInCorrectCase_shouldReturnFalse() {
         //Arrange
         VendingMachine testVM = new VendingMachine(new FileInteractor("vendingmachine.csv"));
-        BigDecimal testMoney = new BigDecimal("1.65");
-        String expected = "Your change is 6 quarter(s), 1 dime(s), and 1 nickel(s).";
+        BigDecimal test = new BigDecimal("0.00");
+        testVM.feedMoney(test);
 
         //Act
-       // BigDecimal result = testVM.giveChange();
+        boolean result = testVM.isThereEnoughBalance("A4");
+
 
         //Assert
-       // Assert.assertEquals(expected, result);
+        Assert.assertFalse(result);
+    }
+    @Test
+    public void isThereEnoughBalance_ifBalanceIsEqualToItemPriceAndKeyIsInCorrectCase_shouldReturnTrue() {
+        //Arrange
+        VendingMachine testVM = new VendingMachine(new FileInteractor("vendingmachine.csv"));
+        BigDecimal test = new BigDecimal("3.65");
+        testVM.setNewBalance(test);
+
+        //Act
+        boolean result = testVM.isThereEnoughBalance("A4");
+
+
+        //Assert
+        Assert.assertTrue(result);
+    }
+
+   @Test
+    public void giveChange_shouldSetPreviousBalanceBackToZero() {
+        //Arrange
+        VendingMachine testVM = new VendingMachine(new FileInteractor("vendingmachine.csv"));
+        BigDecimal testMoney = new BigDecimal("2.00");
+        BigDecimal expected = new BigDecimal("0.00");
+        testVM.feedMoney(testMoney);
+        testVM.giveChange();
+
+        //Act
+       BigDecimal result = testVM.getNewBalance();
+
+        //Assert
+       Assert.assertEquals(expected, result);
     }
 
     @Test
     public void giveChange_withNoChangeEntered_shouldReturnZero() {
         //Arrange
-        Register test = new Register();
-        test.feedMoney(0);
-        String expected = "Your change is 0 quarter(s), 0 dime(s), and 0 nickel(s).";
+        VendingMachine testVM = new VendingMachine(new FileInteractor("vendingmachine.csv"));
+        BigDecimal expected = new BigDecimal("0.00");
+        testVM.giveChange();
 
         //Act
-        String result = test.giveChange();
+        BigDecimal result = testVM.getNewBalance();
 
         //Assert
         Assert.assertEquals(expected, result);
     }
-
     @Test
+    public void feedMoney_startingWith0Balance_shouldReturnMoneyFed() {
+        //Arrange
+        VendingMachine testVM = new VendingMachine(new FileInteractor("vendingmachine.csv"));
+        BigDecimal expected = new BigDecimal("5.00");
+        testVM.feedMoney(expected);
+
+        //Act
+        BigDecimal result = testVM.getNewBalance();
+
+        //Assert
+        Assert.assertEquals(expected, result);
+    }
+    @Test
+    public void feedMoney_startingWithNon0Balance_shouldReturnSumOfMoneyFedAndPreviousBalance() {
+        //Arrange
+        VendingMachine testVM = new VendingMachine(new FileInteractor("vendingmachine.csv"));
+        BigDecimal expected = new BigDecimal("7.00");
+        BigDecimal moneyFed = new BigDecimal("5.00");
+        BigDecimal setBalance = new BigDecimal("2.00");
+        testVM.feedMoney(setBalance);
+        testVM.feedMoney(moneyFed);
+
+        //Act
+        BigDecimal result = testVM.getNewBalance();
+
+        //Assert
+        Assert.assertEquals(expected, result);
+    }
+/*
+@Test
     public void giveChange_withBalanceLessThan25_shouldReturn1DimeAnd1Nickel() {
         //Arrange
-        Register test = new Register();
-        test.feedMoney(15);
-        String expected = "Your change is 0 quarter(s), 1 dime(s), and 1 nickel(s).";
+        VendingMachine testVM = new VendingMachine(new FileInteractor("vendingmachine.csv"));
+        BigDecimal test = new BigDecimal("0.15");
+        testVM.feedMoney(test);
+        int expected = 1;
+        testVM.giveChange();
 
         //Act
-        String result = test.giveChange();
+        int result = testVM.get
 
         //Assert
-        Assert.assertEquals(expected, result);
+       // Assert.assertEquals(expe);
     }
+
 
     @Test
     public void giveChange_withBalance17_shouldReturn1DimeAnd1Nickel() {
@@ -117,19 +180,7 @@ public class VendingMachineTests {
         Assert.assertEquals(expected, result);
     }
 
-    @Test
-    public void feedMoney_startingWith0Balance_shouldReturnMoneyFed() {
-        //Arrange
-        Register test = new Register();
-        test.feedMoney(17);
-        int expected = 17;
 
-        //Act
-        int result = test.getBalance();
-
-        //Assert
-        Assert.assertEquals(expected, result);
-    }
 
     @Test
     public void feedMoney_startingWithABalance_shouldReturnSumOfBalances() {
