@@ -78,7 +78,7 @@ public class VendingMachineCLI {
 						Scanner enteredKey = new Scanner(System.in);
 						String key = enteredKey.nextLine().toUpperCase();
 
-						if(vm.actualInventory.containsKey(key)){
+						if(vm.actualInventory.containsKey(key)){  //isValidKey
 							if(vm.isInStock(key) && vm.isThereEnoughBalance(key)) {
 								vm.purchase(key);
 								vm.dispense(key);

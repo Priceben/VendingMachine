@@ -149,15 +149,21 @@ public class VendingMachine {
             }
         }
 
-        public boolean isInStock (String key){
-            if (actualInventory.get(key).getInventoryCount() > 0) {
-                return true;
+
+        public boolean isInStock (String key) {
+            try {
+                if (actualInventory.get(key).getInventoryCount() > 0) {
+                    return true;
+                }
+                //return false;
+            } catch (NullPointerException e) {
+                e.getMessage();
             }
             return false;
         }
 
         public boolean isThereEnoughBalance (String key){
-            this.previousBalance = newBalance;
+           // this.previousBalance = newBalance;
             BigDecimal itemPrice = new BigDecimal(actualInventory.get(key).getItem().getPrice().toString());
             if (getPreviousBalance().compareTo(itemPrice) == 1 || getPreviousBalance().compareTo(itemPrice) == 0) {
                 return true;

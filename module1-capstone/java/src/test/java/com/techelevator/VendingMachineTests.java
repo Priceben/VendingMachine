@@ -3,20 +3,76 @@ package com.techelevator;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class RegisterTests {
+import java.math.BigDecimal;
 
-/*    @Test
+public class VendingMachineTests {
+
+    @Test
+    public void isInStock_whenItemIsInStockAndHasValidKey_shouldReturnTrue() {
+        //Arrange
+        VendingMachine testVM = new VendingMachine(new FileInteractor("vendingmachine.csv"));
+        String key = "A4";
+
+        //Act
+        boolean result = testVM.isInStock(key);
+
+        //Assert
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void isInStock_whenItemIsOutOfStockAndHasValidKey_shouldReturnFalse() {
+        //Arrange
+        VendingMachine testVM = new VendingMachine(new FileInteractor("vendingmachine.csv"));
+        String key = "A4";
+        testVM.actualInventory.get(key).setInventoryCount(0);
+
+        //Act
+        boolean result = testVM.isInStock(key);
+
+        //Assert
+        Assert.assertFalse(result);
+    }
+
+    @Test
+    public void isInStock_whenGivenInvalidKey_shouldReturnFalse() {
+        //Arrange
+        VendingMachine testVM = new VendingMachine(new FileInteractor("vendingmachine.csv"));
+        String key = "E4";
+
+        //Act
+        boolean result = testVM.isInStock(key);
+
+        //Assert
+        Assert.assertFalse(result);
+    }
+
+    @Test
+    public void isThereEnoughBalance_shouldReturnTrue() {
+        //Arrange
+        VendingMachine testVM = new VendingMachine(new FileInteractor("vendingmachine.csv"));
+        BigDecimal test = new BigDecimal("5.00");
+        testVM.setPreviousBalance(test);
+        boolean expected = true;
+
+        //Act
+
+
+        //Assert
+    }
+
+   /* @Test
     public void giveChange_shouldReturnLowestNumberOfCoins() {
         //Arrange
-        Register test = new Register();
-        test.feedMoney(165);
+        VendingMachine testVM = new VendingMachine(new FileInteractor("vendingmachine.csv"));
+        BigDecimal testMoney = new BigDecimal("1.65");
         String expected = "Your change is 6 quarter(s), 1 dime(s), and 1 nickel(s).";
 
         //Act
-        String result = test.giveChange();
+       // BigDecimal result = testVM.giveChange();
 
         //Assert
-        Assert.assertEquals(expected, result);
+       // Assert.assertEquals(expected, result);
     }
 
     @Test
