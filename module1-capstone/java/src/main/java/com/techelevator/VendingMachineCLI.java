@@ -69,7 +69,7 @@ public class VendingMachineCLI {
 					System.out.print("Enter Money: ");
 					try {
 						Scanner enteredMoney = new Scanner(System.in);
-						BigDecimal money = new BigDecimal(enteredMoney.nextLine().toString());
+						BigDecimal money = new BigDecimal(enteredMoney.nextLine());
 						vm.feedMoney(money);
 						vm.log(choice);
 						System.out.println("Current Money Provided: $" + vm.getNewBalance());
