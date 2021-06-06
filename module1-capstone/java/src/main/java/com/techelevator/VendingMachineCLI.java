@@ -82,7 +82,7 @@ public class VendingMachineCLI {
 							if(vm.isInStock(key) && vm.isThereEnoughBalance(key)) {
 								vm.purchase(key);
 								vm.dispense(key);
-								vm.log(choice);
+								vm.purchaseLog(key);
 								System.out.println("Remaining Money Available: $" + vm.getNewBalance());
 							} else if(!vm.isInStock(key)) {
 								System.out.println("Sold Out!");
