@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class VendingMachineCLI {
 
-	private VendingMachine vm = new VendingMachine(new FileInteractor("vendingmachine.csv"));
+	private VendingMachine vm = new VendingMachine(new FileReader("vendingmachine.csv"));
 
 	//MAIN MENU CONFIG
 	private static final String MAIN_MENU_OPTION_DISPLAY_ITEMS = "Display Vending Machine Items";
@@ -61,18 +61,16 @@ public class VendingMachineCLI {
 				System.exit(1);
 			}
 
-			// PURCHASE SUB MENU LOOP - LOOP LEVEL 0-1-0
 			while(menuLoop.equals(PURCHASE_LOOP)) {
 				choice = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
 				if (choice.equals(PURCHASE_MENU_OPTION_ADD_MONEY)) {
-					System.out.println("Current Money Provided: $" + vm.getPreviousBalance());
+					System.out.println("Current Money Provided: $" + vm.getBalance());
 					System.out.print("Enter Money: ");
 					try {
 						Scanner enteredMoney = new Scanner(System.in);
 						BigDecimal money = new BigDecimal(enteredMoney.nextLine());
-						vm.feedMoney(money);
-						vm.log(choice);
-						System.out.println("Current Money Provided: $" + vm.getNewBalance());
+						vm.feedMoney(money, choice);
+						System.out.println("Current Money Provided: $" + vm.getBalance());
 					}
 					catch (NumberFormatException e) {
 						System.out.println("Number entered is invalid! Can only enter integers in 100 increments.");
@@ -80,7 +78,7 @@ public class VendingMachineCLI {
 				}
 				if (choice.equals(PURCHASE_MENU_OPTION_BUY_ITEM)) {
 					vm.displayInventory();
-					System.out.println("Current Money Provided: $" + vm.getNewBalance());
+					System.out.println("Current Money Provided: $" + vm.getBalance());
 					System.out.println("Enter code for Item you wish to purchase: ");
 					try {
 						Scanner enteredKey = new Scanner(System.in);
@@ -90,8 +88,7 @@ public class VendingMachineCLI {
 							if(vm.isInStock(key) && vm.isThereEnoughBalance(key)) {
 								vm.purchase(key);
 								vm.dispense(key);
-								vm.purchaseLog(key);
-								System.out.println("Remaining Money Available: $" + vm.getNewBalance());
+								System.out.println("Remaining Money Available: $" + vm.getBalance());
 							} else if(!vm.isInStock(key)) {
 								System.out.println("Sold Out!");
 							} else if (!vm.isThereEnoughBalance(key)) {
@@ -108,8 +105,7 @@ public class VendingMachineCLI {
 
 				}
 				if (choice.equals(PURCHASE_MENU_OPTION_CASH_OUT)) {
-					vm.giveChange();
-					vm.log(choice);
+					vm.giveChange(choice);
 					menuLoop = MAIN_LOOP;
 				}
 				if (choice.equals(PURCHASE_MENU_OPTION_PREVIOUS_MENU)) {

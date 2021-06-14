@@ -7,19 +7,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class FileInteractor {
+public class FileReader {
     //Instance Variables
     private File uploadFile ;
 
     //Constructor
-    public FileInteractor(String sourcefile){
+    public FileReader(String sourcefile){
         uploadFile = new File(sourcefile);
     }
 
     //Method
-    public Map<String, ItemInventory> load() {
+    public Map<String, SlotQuantity> load() {
 
-        Map<String, ItemInventory> actualInventory = new HashMap<>();
+        Map<String, SlotQuantity> actualInventory = new HashMap<>();
 
         try (Scanner inputScanner = new Scanner(uploadFile.getAbsoluteFile())) {
             String searchResults = "";
@@ -35,13 +35,11 @@ public class FileInteractor {
 
                 //Instantiate an item using my new values
                 Item testItem = new Item (name, price, type);
-                ItemInventory testItemInventory = new ItemInventory(5, testItem);
-                //slotLocation, name, price, type
+                SlotQuantity testItemInventory = new SlotQuantity(5, testItem);
 
                 //Create a Map
                 actualInventory.put(slotNumber,testItemInventory);
                 }
-
 
             } catch(FileNotFoundException e) {
                     System.out.println("Oops Something Went Wrong");

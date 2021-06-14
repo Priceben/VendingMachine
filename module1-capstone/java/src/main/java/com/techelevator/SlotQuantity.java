@@ -1,7 +1,7 @@
 package com.techelevator;
 
 
-public class ItemInventory {
+public class SlotQuantity {
     private int inventoryCount = 5;
     private Item item;
 
@@ -25,7 +25,7 @@ public class ItemInventory {
     }
 
     //Constructor
-    public ItemInventory(int inventoryCount, Item item){
+    public SlotQuantity(int inventoryCount, Item item){
         this.inventoryCount = inventoryCount;
         this.item = item;
     }
