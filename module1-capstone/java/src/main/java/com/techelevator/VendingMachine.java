@@ -131,52 +131,52 @@ public class VendingMachine {
         }
     }
 
-        public void log (String choice, BigDecimal previousBalance) {
-            BigDecimal zero = new BigDecimal("0.00");
-            File logFile = new File("log.txt");
-            if (logFile.exists()) {
-                try (PrintWriter logWriter = new PrintWriter(new FileOutputStream(logFile,true),true)) {
+    public void log (String choice, BigDecimal previousBalance) {
+        BigDecimal zero = new BigDecimal("0.00");
+        File logFile = new File("log.txt");
+        if (logFile.exists()) {
+            try (PrintWriter logWriter = new PrintWriter(new FileOutputStream(logFile,true),true)) {
 
-                    DateTimeFormatter americanDateFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-                    String americanDate = LocalDate.now().format(americanDateFormat);
+                DateTimeFormatter americanDateFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+                String americanDate = LocalDate.now().format(americanDateFormat);
 
-                    DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
-                    String rightFormat = LocalTime.now().format(timeFormatter);
+                DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
+                String rightFormat = LocalTime.now().format(timeFormatter);
 
-                    if (choice.equals("Add Money")) {
-                        logWriter.write(americanDate + " " + rightFormat + " " + choice.toUpperCase() + ": \\$" + previousBalance + " \\$" + getBalance() + "\n");
-                    }
-
-                    if (choice.equals("Cash out")) {
-                        logWriter.write(americanDate + " " + rightFormat + " " + choice.toUpperCase() + ": \\$" + previousBalance + " \\$" + getBalance() + "\n");
-                        balance = zero;
-                    }
-
-                } catch (FileNotFoundException e) {
-                    System.out.println("Oops Something Went Wrong");
+                if (choice.equals("Add Money")) {
+                    logWriter.write(americanDate + " " + rightFormat + " " + choice.toUpperCase() + ": \\$" + previousBalance + " \\$" + getBalance() + "\n");
                 }
+
+                if (choice.equals("Cash out")) {
+                    logWriter.write(americanDate + " " + rightFormat + " " + choice.toUpperCase() + ": \\$" + previousBalance + " \\$" + getBalance() + "\n");
+                    balance = zero;
+                }
+
+            } catch (FileNotFoundException e) {
+                System.out.println("Oops Something Went Wrong");
             }
         }
+    }
 
-        public boolean isInStock (String key) {
-            try {
-                if (actualInventory.get(key).getInventoryCount() > 0) {
-                    return true;
-                }
-            } catch (NullPointerException e) {
-                e.getMessage();
-            }
-            return false;
-        }
-
-        public boolean isThereEnoughBalance (String key){
-            BigDecimal itemPrice = new BigDecimal(actualInventory.get(key).getItem().getPrice().toString());
-            if (getBalance().compareTo(itemPrice) == 1 || getBalance().compareTo(itemPrice) == 0) {
+    public boolean isInStock (String key) {
+        try {
+            if (actualInventory.get(key).getInventoryCount() > 0) {
                 return true;
             }
-            return false;
+        } catch (NullPointerException e) {
+            e.getMessage();
         }
-
+        return false;
     }
+
+    public boolean isThereEnoughBalance (String key){
+        BigDecimal itemPrice = new BigDecimal(actualInventory.get(key).getItem().getPrice().toString());
+        if (getBalance().compareTo(itemPrice) == 1 || getBalance().compareTo(itemPrice) == 0) {
+            return true;
+        }
+        return false;
+    }
+
+}
 
 
